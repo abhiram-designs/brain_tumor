@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background circles */
+        .bg-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .circle:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+            animation-duration: 12s;
+        }
+
+        .circle:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+            animation-duration: 18s;
+        }
+
+        .circle:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 10%;
+            animation-delay: 4s;
+            animation-duration: 15s;
+        }
+
+        .circle:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 70%;
+            animation-delay: 1s;
+            animation-duration: 20s;
+        }
+
+        .circle:nth-child(5) {
+            width: 90px;
+            height: 90px;
+            top: 40%;
+            left: 40%;
+            animation-delay: 3s;
+            animation-duration: 16s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-50px) translateX(30px) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            width: 380px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.6s ease-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #667eea;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .msg {
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register p {
+            margin: 8px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .register a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-animation">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+</div>
+
+<div class="login-box">
+    <h2>Login</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="msg">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="register">
+        <p>New user? <a href="/ureg/">Register</a></p>
+        <p>New doctor? <a href="/register/">Register</a></p>
+    </div>
+</div>
+
+</body>
+</html>
